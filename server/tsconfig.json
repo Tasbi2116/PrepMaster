@@ -8,21 +8,16 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-
-    /* Strict */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitOverride": true,
-
-    /* Paths */
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-
     "skipLibCheck": true
   },
   "include": ["src/**/*"],
