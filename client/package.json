@@ -12,16 +12,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.x.x",
-    "axios": "^1.x.x",
+    "@supabase/supabase-js": "^2.98.0",
+    "axios": "^1.13.6",
+    "lucide-react": "^0.577.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.x.x"
+    "react-hot-toast": "^2.6.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^6.30.3"
   },
   "devDependencies": {
     "@types/node": "^22.x.x",
     "@types/react": "^18.x.x",
     "@types/react-dom": "^18.x.x",
+    "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^8.x.x",
     "@typescript-eslint/parser": "^8.x.x",
     "@vitejs/plugin-react": "^4.7.0",

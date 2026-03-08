@@ -1,34 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
+import { AuthProvider } from './context/AuthContext'
+import { ProtectedRoute } from './components/ui/ProtectedRoute'
+import { Navbar } from './components/Navbar'
+import { LandingPage } from './pages/LandingPage'
+import { LoginPage } from './pages/LoginPage'
+import { RegisterPage } from './pages/RegisterPage'
+import { DashboardPage } from './pages/DashboardPage'
+import { TopicsPage } from './pages/TopicsPage'
+import { QuestionsPage } from './pages/QuestionsPage'
+import { QuestionDetailPage } from './pages/QuestionDetailPage'
+import { BookmarksPage } from './pages/BookmarksPage'
+import { MockTestsPage } from './pages/MockTestsPage'
+import { useAuth } from './context/AuthContext'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const AppLayout = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useAuth()
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {user && <Navbar />}
+      {children}
     </>
+  )
+}
+
+const AppRoutes = () => {
+  return (
+    <AppLayout>
+      <Routes>
+        {/* Public */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+
+        {/* Protected */}
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route path="/topics" element={<ProtectedRoute><TopicsPage /></ProtectedRoute>} />
+        <Route path="/topics/:slug" element={<ProtectedRoute><QuestionsPage /></ProtectedRoute>} />
+        <Route path="/questions/:id" element={<ProtectedRoute><QuestionDetailPage /></ProtectedRoute>} />
+        <Route path="/bookmarks" element={<ProtectedRoute><BookmarksPage /></ProtectedRoute>} />
+        <Route path="/tests" element={<ProtectedRoute><MockTestsPage /></ProtectedRoute>} />
+
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AppLayout>
+  )
+}
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <AppRoutes />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            style: {
+              background: '#1e293b',
+              color: '#f1f5f9',
+              border: '1px solid #334155',
+            },
+          }}
+        />
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
 
