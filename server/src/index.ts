@@ -13,7 +13,16 @@ import { errorHandler, notFound } from './middleware/error.middleware'
 const app = express()
 const PORT = process.env['PORT'] ?? 5000
 
-app.use(cors({ origin: process.env['CLIENT_URL'] ?? 'http://localhost:3000', credentials: true }))
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://prep-master-umber.vercel.app',
+    process.env.CLIENT_URL || '',
+  ].filter(Boolean),
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
