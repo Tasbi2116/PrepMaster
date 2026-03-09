@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { BookOpen, LayoutDashboard, BookmarkIcon, ClipboardList, LogOut, Shield } from 'lucide-react'
+import { BookOpen, LayoutDashboard, BookmarkIcon, ClipboardList, LogOut, Shield, UserCircle } from 'lucide-react'
 
 export const Navbar = () => {
   const { user, logout, isAdmin } = useAuth()
@@ -46,10 +46,19 @@ export const Navbar = () => {
           )}
         </div>
 
-        <div className="flex items-center gap-3">
+<div className="flex items-center gap-3">
           <span className="text-sm text-slate-400 hidden md:block">
             👋 {user?.username}
           </span>
+          <Link
+            to="/profile"
+            className={`flex items-center gap-1.5 text-sm transition-colors
+              ${pathname === '/profile'
+                ? 'text-brand-400'
+                : 'text-slate-400 hover:text-white'}`}
+          >
+            <UserCircle size={16} /> Profile
+          </Link>
           <button onClick={logout} className="flex items-center gap-1.5 text-slate-400 hover:text-red-400 transition-colors text-sm">
             <LogOut size={16} /> Logout
           </button>

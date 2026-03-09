@@ -1,3 +1,4 @@
+// Add these imports at the top
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
@@ -12,7 +13,14 @@ import { QuestionsPage } from './pages/QuestionsPage'
 import { QuestionDetailPage } from './pages/QuestionDetailPage'
 import { BookmarksPage } from './pages/BookmarksPage'
 import { MockTestsPage } from './pages/MockTestsPage'
+import { AdminLayout } from './pages/admin/AdminLayout'
+import { AdminDashboard } from './pages/admin/AdminDashboard'
+import { AdminTopics } from './pages/admin/AdminTopics'
+import { AdminQuestions } from './pages/admin/AdminQuestions'
+import { AdminMockTests } from './pages/admin/AdminMockTests'
 import { useAuth } from './context/AuthContext'
+import { MockTestTakingPage } from './pages/MockTestTakingPage'
+import { ProfilePage } from './pages/ProfilePage'
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuth()
@@ -40,6 +48,25 @@ const AppRoutes = () => {
         <Route path="/questions/:id" element={<ProtectedRoute><QuestionDetailPage /></ProtectedRoute>} />
         <Route path="/bookmarks" element={<ProtectedRoute><BookmarksPage /></ProtectedRoute>} />
         <Route path="/tests" element={<ProtectedRoute><MockTestsPage /></ProtectedRoute>} />
+
+        <Route path="/tests/:id" element=
+        {<ProtectedRoute><MockTestTakingPage /></ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute><ProfilePage /></ProtectedRoute>
+        } />
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={
+          <ProtectedRoute adminOnly>
+            <AdminLayout />
+          </ProtectedRoute>
+        }>
+          <Route index element={<AdminDashboard />} />
+          <Route path="topics" element={<AdminTopics />} />
+          <Route path="questions" element={<AdminQuestions />} />
+          <Route path="tests" element={<AdminMockTests />} />
+        </Route>
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
