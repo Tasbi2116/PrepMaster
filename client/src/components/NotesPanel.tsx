@@ -18,11 +18,11 @@ export default function NotesPanel({ questionId }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-white">📝 My Notes</h3>
         <div className="flex items-center gap-3">
-          {/* Save status */}
           {saving && (
             <span className="flex items-center gap-1 text-xs text-brand-400">
               <Loader2 size={12} className="animate-spin" /> Saving...
@@ -33,7 +33,6 @@ export default function NotesPanel({ questionId }: Props) {
               <Save size={12} /> Saved
             </span>
           )}
-          {/* Delete button */}
           {content && (
             <button
               onClick={deleteNote}
@@ -45,19 +44,23 @@ export default function NotesPanel({ questionId }: Props) {
         </div>
       </div>
 
-      {/* Textarea */}
+      {/* Textarea — using inline styles to guarantee visibility */}
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Write your notes here... They auto-save as you type."
         rows={8}
-        className="w-full rounded-xl bg-surface-800 border border-surface-700
-                   text-white placeholder:text-surface-500 p-4 text-sm font-mono resize-y
-                   focus:outline-none focus:ring-2 focus:ring-brand-500
-                   transition-all"
+        style={{
+          backgroundColor: '#1e293b',
+          color: '#f1f5f9',
+          caretColor: '#f1f5f9',
+        }}
+        className="w-full rounded-xl border border-slate-600 p-4 text-sm
+                   font-mono resize-y focus:outline-none focus:ring-2
+                   focus:ring-brand-500 transition-all"
       />
 
-      <p className="text-xs text-surface-500">
+      <p className="text-xs text-slate-500">
         Notes are private and auto-saved to your account.
       </p>
     </div>
