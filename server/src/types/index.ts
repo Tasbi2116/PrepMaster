@@ -96,3 +96,12 @@ export interface AuthUser {
   email: string
   role: 'user' | 'admin'
 }
+
+export interface Note {
+  id: string
+  user_id: string
+  question_id: string
+  content: string
+  created_at: string
+  updated_at: string
+}

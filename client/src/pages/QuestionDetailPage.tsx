@@ -9,6 +9,7 @@ import { useAuth } from '../context/AuthContext'
 import type { ApiResponse, Question } from '../types'
 import { Bookmark, BookmarkCheck, Eye, CheckCircle, ChevronDown } from 'lucide-react'
 import toast from 'react-hot-toast'
+import NotesPanel from '../components/NotesPanel'
 
 export const QuestionDetailPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -62,18 +63,21 @@ export const QuestionDetailPage = () => {
     }
   }
 
+  // ─── Loading state ────────────────────────────────────────────────────────
   if (loading) return (
     <div className="min-h-screen bg-surface pt-20 flex items-center justify-center">
       <Spinner size="lg" />
     </div>
   )
 
+  // ─── Not found state ──────────────────────────────────────────────────────
   if (!question) return (
     <div className="min-h-screen bg-surface pt-20 flex items-center justify-center">
       <p className="text-slate-400">Question not found.</p>
     </div>
   )
 
+  // ─── Main render ──────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-surface pt-20 pb-12 px-4">
       <div className="max-w-3xl mx-auto">
@@ -110,13 +114,16 @@ export const QuestionDetailPage = () => {
           {/* Tags */}
           <div className="flex flex-wrap gap-1.5 mb-6">
             {question.tags.map(tag => (
-              <span key={tag} className="text-xs bg-surface text-slate-400 px-2 py-0.5 rounded-full border border-surface-border">
+              <span
+                key={tag}
+                className="text-xs bg-surface text-slate-400 px-2 py-0.5 rounded-full border border-surface-border"
+              >
                 {tag}
               </span>
             ))}
           </div>
 
-          {/* Content */}
+          {/* Question Content */}
           <div className="prose prose-invert prose-sm max-w-none text-slate-300">
             <ReactMarkdown>{question.content}</ReactMarkdown>
           </div>
@@ -126,16 +133,17 @@ export const QuestionDetailPage = () => {
         {!showAnswer ? (
           <button
             onClick={handleShowAnswer}
-            className="btn-ghost w-full flex items-center justify-center gap-2 py-4"
+            className="btn-ghost w-full flex items-center justify-center gap-2 py-4 mb-6"
           >
             <Eye size={18} /> Show Answer <ChevronDown size={16} />
           </button>
         ) : (
-          <div className="card border-brand-500/30">
+          <div className="card border-brand-500/30 mb-6">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-2 h-2 rounded-full bg-brand-400" />
               <h2 className="font-display font-semibold text-white">Answer</h2>
             </div>
+
             <div className="prose prose-invert prose-sm max-w-none text-slate-300">
               <ReactMarkdown>{question.answer}</ReactMarkdown>
             </div>
@@ -152,6 +160,14 @@ export const QuestionDetailPage = () => {
             )}
           </div>
         )}
+
+        {/* Notes Section — only visible to logged-in users */}
+        {user && id && (
+          <div className="card mt-2">
+            <NotesPanel questionId={id} />
+          </div>
+        )}
+
       </div>
     </div>
   )
