@@ -10,6 +10,7 @@ import mocktestRoutes from './routes/mocktest.routes'
 import { progressRouter, bookmarkRouter } from './routes/progress.routes'
 import { errorHandler, notFound } from './middleware/error.middleware'
 import notesRoutes from './routes/notes.routes'
+import aiRoutes from './routes/ai.routes'
 
 const app = express()
 const PORT = process.env['PORT'] ?? 5000
@@ -38,6 +39,7 @@ app.use('/api/tests', mocktestRoutes)
 app.use('/api/progress', progressRouter)
 app.use('/api/bookmarks', bookmarkRouter)
 app.use('/api/notes', notesRoutes)
+app.use('/api/ai', aiRoutes)
 
 app.use(notFound)
 app.use(errorHandler)

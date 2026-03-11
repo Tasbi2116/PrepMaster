@@ -10,6 +10,7 @@ import type { ApiResponse, Question } from '../types'
 import { Bookmark, BookmarkCheck, Eye, CheckCircle, ChevronDown } from 'lucide-react'
 import toast from 'react-hot-toast'
 import NotesPanel from '../components/NotesPanel'
+import AIHintPanel from '../components/AIHintPanel'
 
 export const QuestionDetailPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -149,25 +150,36 @@ export const QuestionDetailPage = () => {
             </div>
 
             {user && (
-              <div className="mt-6 pt-4 border-t border-surface-border">
+              <div className="mt-6 pt-4 border-t border-surface-border flex flex-col gap-4">
+
+                {/* Mark as Solved */}
                 <button
                   onClick={handleMarkSolved}
-                  className="flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                  className="flex items-center gap-2 text-sm text-emerald-400
+                 hover:text-emerald-300 transition-colors w-fit"
                 >
                   <CheckCircle size={16} /> Mark as Solved
                 </button>
+
+                {/* AI Hint — only shows after answer is revealed */}
+                <AIHintPanel
+                  questionTitle={question.title}
+                  questionContent={question.content}
+                  difficulty={question.difficulty}
+                />
+
               </div>
             )}
+
+            {/* Notes Section — only visible to logged-in users */}
+            {user && id && (
+              <div className="card mt-2">
+                <NotesPanel questionId={id} />
+              </div>
+            )}
+
           </div>
         )}
-
-        {/* Notes Section — only visible to logged-in users */}
-        {user && id && (
-          <div className="card mt-2">
-            <NotesPanel questionId={id} />
-          </div>
-        )}
-
       </div>
     </div>
   )
