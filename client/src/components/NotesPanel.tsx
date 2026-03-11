@@ -51,8 +51,8 @@ export default function NotesPanel({ questionId }: Props) {
         onChange={(e) => setContent(e.target.value)}
         placeholder="Write your notes here... They auto-save as you type."
         rows={8}
-        className="w-full rounded-xl bg-surface-800 border border-surface-700 text-white
-                   placeholder-surface-500 p-4 text-sm font-mono resize-y
+        className="w-full rounded-xl bg-surface-800 border border-surface-700
+                   text-white placeholder:text-surface-500 p-4 text-sm font-mono resize-y
                    focus:outline-none focus:ring-2 focus:ring-brand-500
                    transition-all"
       />
