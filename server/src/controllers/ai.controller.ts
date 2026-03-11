@@ -23,7 +23,8 @@ export const getAIHint = async (
     res.setHeader('Connection', 'keep-alive')
     res.flushHeaders()
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    // ✅ Correct model name for current Gemini API
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' })
 
     const prompt = `You are a friendly computer science tutor helping a student understand interview concepts.
 
@@ -44,7 +45,7 @@ One practical tip for answering this in an interview.
 
 Keep it concise, encouraging, and easy to understand.`
 
-    // Stream the response
+    // Stream the response chunk by chunk
     const result = await model.generateContentStream(prompt)
 
     for await (const chunk of result.stream) {
@@ -54,12 +55,12 @@ Keep it concise, encouraging, and easy to understand.`
       }
     }
 
-    // Signal completion
+    // Signal completion to frontend
     res.write(`data: ${JSON.stringify({ done: true })}\n\n`)
     res.end()
 
   } catch (err: any) {
-    console.error('AI hint error:', err)
+    console.error('AI hint error:', err?.message ?? err)
 
     // Handle rate limit specifically
     if (err?.status === 429) {
